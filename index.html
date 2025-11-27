@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Día de Acción de Gracias</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(135deg, #fdfbf7 0%, #fff1e6 100%);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, .fancy-text {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Animación para las hojas cayendo */
+        .leaf {
+            position: absolute;
+            top: -10%;
+            width: 20px;
+            height: 20px;
+            background: #d97706;
+            border-radius: 0 50% 0 50%;
+            opacity: 0.7;
+            animation: fall linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translate(100px, 100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Estilo de la tarjeta (Efecto cristal) */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center relative text-amber-900">
+
+    <div id="leaves-container" class="absolute inset-0 w-full h-full overflow-hidden"></div>
+
+    <div class="glass-card relative z-10 w-11/12 max-w-lg p-8 rounded-3xl shadow-2xl text-center fade-in border-t-4 border-amber-500">
+        
+        <div class="text-6xl mb-4 animate-bounce">🍂</div>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-amber-700 mb-2">Acción de Gracias</h1>
+        <p class="text-amber-800/70 italic text-lg mb-8">Un momento para agradecer lo simple y lo inmenso.</p>
+
+        <div id="card-content" class="bg-white/60 rounded-xl p-6 shadow-inner border border-amber-100">
+            <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                Hoy no se trata solo de la cena, sino de la calidez de las personas que nos rodean.
+            </p>
+
+            <div id="message-area" class="hidden mb-6 p-4 bg-amber-50 rounded-lg border-l-4 border-amber-400">
+                <p id="dynamic-text" class="fancy-text text-xl text-amber-800 font-semibold"></p>
+            </div>
+
+            <button onclick="revealMessage()" class="group relative inline-flex items-center justify-center px-8 py-3 text-lg font-medium text-white transition-all duration-200 bg-amber-600 rounded-full hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                <span>Descubrir un deseo</span>
+                <svg class="w-5 h-5 ml-2 -mr-1 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+            </button>
+        </div>
+
+        <div class="mt-8 text-sm text-amber-800/50">
+            <p>Con cariño, para ti.</p>
+        </div>
+    </div>
+
+    <script>
+        // --- Lógica de la Tarjeta ---
+
+        const messages = [
+            "Que la gratitud transforme lo que tienes en suficiente.",
+            "Gracias por ser una parte esencial de mi historia este año.",
+            "Que tu hogar se llene de risas, amor y el aroma de una buena cena.",
+            "La felicidad no es tenerlo todo, sino agradecer todo lo que se tiene.",
+            "Hoy celebro tu presencia en mi vida. ¡Feliz Día!",
+            "Que la calidez de este día permanezca contigo todo el invierno."
+        ];
+
+        function revealMessage() {
+            const messageArea = document.getElementById('message-area');
+            const dynamicText = document.getElementById('dynamic-text');
+            const btn = document.querySelector('button span');
+            
+            // Efecto suave de cambio
+            messageArea.classList.remove('hidden');
+            messageArea.classList.remove('fade-in');
+            void messageArea.offsetWidth; // Trigger reflow
+            messageArea.classList.add('fade-in');
+
+            // Seleccionar mensaje aleatorio
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            dynamicText.innerText = `"${randomMsg}"`;
+            
+            btn.innerText = "Ver otro mensaje";
+        }
+
+        // --- Lógica de Hojas Cayendo (Fondo) ---
+        
+        function createLeaves() {
+            const container = document.getElementById('leaves-container');
+            const colors = ['#d97706', '#b45309', '#f59e0b', '#78350f']; // Tonos otoñales
+
+            for(let i = 0; i < 20; i++) {
+                const leaf = document.createElement('div');
+                leaf.classList.add('leaf');
+                
+                // Aleatoriedad en posición y animación
+                leaf.style.left = Math.random() * 100 + 'vw';
+                leaf.style.animationDuration = Math.random() * 3 + 5 + 's'; // Entre 5 y 8s
+                leaf.style.animationDelay = Math.random() * 5 + 's';
+                leaf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 10 + 10 + 'px';
+                leaf.style.width = size;
+                leaf.style.height = size;
+
+                container.appendChild(leaf);
+            }
+        }
+
+        // Iniciar efecto de hojas al cargar
+        window.onload = createLeaves;
+    </script>
+</body>
+</html>
