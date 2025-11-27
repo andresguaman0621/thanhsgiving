@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(to bottom, #1a1a1a, #4a2c2a); /* Fondo más íntimo y nocturno */
+            background: linear-gradient(to bottom, #1a1a1a, #4a2c2a); /* Fondo íntimo */
             overflow-x: hidden;
             color: #fff;
         }
@@ -96,29 +96,60 @@
     </div>
 
     <script>
-        // Mensajes románticos y personales
+        // Lista exacta de frases proporcionada
         const reasons = [
             "Agradezco que hayas aparecido en mi vida.",
             "Doy gracias porque me enseñas a ver el mundo distinto.",
             "Agradezco tu risa, que me alegra los días.",
             "Doy gracias por cada historia que compartes conmigo.",
             "Hoy agradezco simplemente porque existes.",
-            "Gracias por dejarme ser parte de tu presente."
+            "Gracias por dejarme ser parte de tu presente.",
+            "Agradezco la forma en que me miras.",
+            "Gracias por hacerme sentir en casa cuando estoy contigo.",
+            "Agradezco tu paciencia y tu cariño constante.",
+            "Gracias por compartir tus recuerdos más bonitos conmigo.",
+            "Doy gracias por la paz que me transmites.",
+            "Gracias por ser mi lugar seguro.",
+            "Agradezco tu inteligencia y tu forma de ser.",
+            "Gracias por impulsarme a ser mejor persona.",
+            "Agradezco que me dejes cuidarte.",
+            "Doy gracias por coincidir contigo.",
+            "Gracias por tu ternura, tu cariño....",
+            "Agradezco cada pequeño detalle que tienes conmigo.",
+            "Doy gracias por escucharme siempre.",
+            "Agradezco la confianza que pones en mí.",
+            "Doy gracias por la conexión única que tenemos.",
+            "Gracias por ser auténtica y real conmigo.",
+            "Agradezco cada abrazo tuyo que reinicia mi día.",
+            "Gracias por iluminar mis días, incluso los cansados.",
+            "Agradezco al destino por haber cruzado nuestros caminos."
         ];
+
+        // Variable para controlar el orden (0 = primera frase)
+        let currentIndex = 0;
 
         function showReason() {
             const display = document.getElementById('quote-display');
             const btnText = document.getElementById('btn-text');
             
-            // Animación de salida breve
+            // 1. Animación de salida (desaparece el texto anterior suavemente)
             display.style.opacity = '0';
             display.style.transform = 'scale(0.95)';
             
             setTimeout(() => {
-                // Seleccionar mensaje
-                const randomReason = reasons[Math.floor(Math.random() * reasons.length)];
+                // 2. Seleccionar mensaje en ORDEN secuencial
+                const currentReason = reasons[currentIndex];
+                display.innerText = currentReason;
                 
-                display.innerText = randomReason;
+                // 3. Actualizar índice para el próximo clic
+                currentIndex++;
+                
+                // Si llegamos al final, reiniciamos a 0
+                if (currentIndex >= reasons.length) {
+                    currentIndex = 0;
+                }
+
+                // 4. Mostrar el nuevo texto
                 display.classList.remove('hidden');
                 
                 // Animación de entrada
@@ -127,11 +158,12 @@
                     display.style.transform = 'scale(1)';
                 });
 
-                btnText.innerText = "Ver otro motivo";
+                // Cambiar el texto del botón
+                btnText.innerText = "Siguiente motivo";
             }, 200);
         }
 
-        // Fondo de partículas/hojas sutiles
+        // --- Efecto visual de fondo (Hojas) ---
         function createLeaves() {
             const container = document.getElementById('leaves-container');
             const colors = ['#d97706', '#b45309', '#fbbf24']; 
@@ -139,13 +171,16 @@
             for(let i = 0; i < 15; i++) {
                 const leaf = document.createElement('div');
                 leaf.classList.add('leaf');
+                // Posición y velocidad aleatoria
                 leaf.style.left = Math.random() * 100 + 'vw';
-                leaf.style.animationDuration = Math.random() * 5 + 8 + 's'; // Más lento
+                leaf.style.animationDuration = Math.random() * 5 + 8 + 's'; 
                 leaf.style.animationDelay = Math.random() * 5 + 's';
                 leaf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 container.appendChild(leaf);
             }
         }
+        
+        // Iniciar animación al cargar
         window.onload = createLeaves;
     </script>
 </body>
